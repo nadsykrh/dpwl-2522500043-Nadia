@@ -78,3 +78,25 @@ Konfigurasi tiga route telah ditambahkan. Pengujian fungsi route akan dilanjutka
 - Penggantian foto kendaraan berhasil dilakukan.
 - Foto lama tetap digunakan apabila foto tidak diganti.
 - Pengujian fitur UPDATE berhasil dilakukan sesuai skenario yang diuji.
+
+## F. DELETE Data Kendaraan
+
+### Tujuan
+Menambahkan fitur untuk menghapus data kendaraan pada halaman Manajemen Kendaraan.
+
+### Implementasi
+Fitur DELETE data kendaraan meliputi:
+1. Menambahkan method `delete()` pada `Mobil_model.php` untuk menghapus data kendaraan berdasarkan nomor plat.
+2. Menambahkan method `hapus()` pada `Mobil_controller.php` untuk menangani permintaan penghapusan kendaraan.
+3. Memastikan hanya admin yang sudah login dapat melakukan penghapusan.
+4. Menggunakan metode HTTP POST untuk proses penghapusan.
+5. Menghapus foto kendaraan terkait setelah data kendaraan berhasil dihapus dari database.
+6. Menampilkan pesan keberhasilan atau kegagalan proses penghapusan.
+
+### Pengujian
+- Menambahkan data kendaraan untuk pengujian.
+- Menghapus data kendaraan melalui tombol **Hapus**.
+- Memastikan data kendaraan terhapus dari tabel.
+- Memastikan pesan keberhasilan ditampilkan setelah penghapusan berhasil.
+
+**Status:** Berhasil diuji pada proyek latihan.
