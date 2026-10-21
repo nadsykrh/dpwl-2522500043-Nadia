@@ -288,6 +288,97 @@ public function tambah(): void
     exit;
 }
 
+    // P5: menampilkan formulir ubah kendaraan
+    public function ubah(string $noPlat): void
+    {
+        require_admin_login();
 
+        $noPlat = rawurldecode($noPlat);
+        $mobilLama = $this->model->findByNoPlat($noPlat);
 
+        if ($mobilLama === null) {
+            set_flash_message('danger', 'Data kendaraan tidak ditemukan.');
+            header('Location: ' . site_url('admin/mobil'));
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $this->renderMobil('ubah', $mobilLama);
+            return;
+        }
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit('Metode request tidak diizinkan.');
+        }
+
+        $data = [
+            'no_plat' => $noPlat,
+            'nm_mobil' => trim((string) ($_POST['nm_mobil'] ?? '')),
+            'nkursi' => filter_var($_POST['nkursi'] ?? null, FILTER_VALIDATE_INT),
+            'nbagasi' => filter_var($_POST['nbagasi'] ?? null, FILTER_VALIDATE_INT),
+            'jns_mobil' => (string) ($_POST['jns_mobil'] ?? ''),
+            'transmisi' => (string) ($_POST['transmisi'] ?? ''),
+            'thn_buat' => filter_var($_POST['thn_buat'] ?? null, FILTER_VALIDATE_INT),
+            'ft_depan' => $mobilLama['ft_depan'],
+            'ft_blkg' => $mobilLama['ft_blkg'],
+            'ft_interior' => $mobilLama['ft_interior'],
+            'hrg_hari' => filter_var($_POST['hrg_hari'] ?? null, FILTER_VALIDATE_INT),
+            'cttn_unit' => trim((string) ($_POST['cttn_unit'] ?? '')),
+            'status_unit' => (string) ($_POST['status_unit'] ?? ''),
+        ];
+        $error = $this->validateMobilInput($data);
+
+        if ($error !== null) {
+            $this->renderMobil('ubah', $data, $error);
+            return;
+        }
+
+                $fotoBaru = [];
+
+        foreach (['ft_depan', 'ft_blkg', 'ft_interior'] as $field) {
+            $upload = $this->uploadFoto($field);
+
+            if (!$upload['success']) {
+                $this->hapusFotoBaru($fotoBaru);
+                $data[$field] = $mobilLama[$field];
+
+                $this->renderMobil('ubah', $data, $upload['message']);
+                return;
+            }
+
+            if ($upload['filename'] !== null) {
+                $fotoBaru[] = $upload['filename'];
+                $data[$field] = $upload['filename'];
+            }
+        }
+                $berhasil = $this->model->update($noPlat, $data);
+
+        if (!$berhasil) {
+            $this->hapusFotoBaru($fotoBaru);
+
+            $this->renderMobil(
+                'ubah',
+                $data,
+                'Gagal memperbarui data kendaraan.'
+            );
+            return;
+        }
+
+        foreach (['ft_depan', 'ft_blkg', 'ft_interior'] as $field) {
+            if (
+                $data[$field] !== $mobilLama[$field]
+                && !empty($mobilLama[$field])
+            ) {
+                $pathLama = FCPATH . 'uploads/mobil/' . $mobilLama[$field];
+
+                if (is_file($pathLama)) {
+                    unlink($pathLama);
+                }
+            }
+        }
+
+        set_flash_message('success', 'Data kendaraan berhasil diperbarui.');
+        header('Location: ' . site_url('admin/mobil'));
+        exit;
+    }
 }

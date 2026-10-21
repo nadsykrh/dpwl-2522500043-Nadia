@@ -152,6 +152,174 @@ $error = $error ?? null;
     </div>
 <?php endif; ?>
 
+<?php if ($mode === 'ubah' && !empty($mobil_dipilih)): ?>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Ubah Kendaraan</h3>
+        </div>
+
+        <div class="box-body">
+            <form method="post"
+                enctype="multipart/form-data"
+                action="<?= htmlspecialchars(
+                    site_url(
+                        'admin/mobil/ubah/' .
+                        rawurlencode((string) $mobil_dipilih['no_plat'])
+                    ),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>">
+
+                <div class="form-group">
+                    <label>Nomor Plat</label>
+                    <input type="text" class="form-control"
+                        value="<?= htmlspecialchars(
+                            $mobil_dipilih['no_plat'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Mobil</label>
+                    <input type="text" name="nm_mobil"
+                        class="form-control" required
+                        value="<?= htmlspecialchars(
+                            (string) ($mobil_dipilih['nm_mobil'] ?? ''),
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Jumlah Kursi</label>
+                    <input type="number" name="nkursi"
+                        class="form-control" min="1" required
+                        value="<?= (int) ($mobil_dipilih['nkursi'] ?? 1) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Jumlah Bagasi</label>
+                    <input type="number" name="nbagasi"
+                        class="form-control" min="0" required
+                        value="<?= (int) ($mobil_dipilih['nbagasi'] ?? 0) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Jenis Mobil</label>
+                    <select name="jns_mobil" class="form-control" required>
+                        <?php foreach (['SUV', 'MPV', 'City Car'] as $jenis): ?>
+                            <option value="<?= htmlspecialchars($jenis, ENT_QUOTES, 'UTF-8') ?>"
+                                <?= ($mobil_dipilih['jns_mobil'] ?? '') === $jenis ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($jenis, ENT_QUOTES, 'UTF-8') ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transmisi</label>
+                    <select name="transmisi" class="form-control" required>
+                        <?php foreach (['AT', 'MT'] as $transmisi): ?>
+                            <option value="<?= $transmisi ?>"
+                                <?= ($mobil_dipilih['transmisi'] ?? '') === $transmisi ? 'selected' : '' ?>>
+                                <?= $transmisi ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tahun Pembuatan</label>
+                    <input type="number" name="thn_buat"
+                        class="form-control" min="1901"
+                        max="<?= date('Y') ?>" required
+                        value="<?= htmlspecialchars(
+                            (string) ($mobil_dipilih['thn_buat'] ?? ''),
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>">
+                </div>
+
+                <?php foreach ([
+                    'ft_depan' => 'Foto Depan Mobil',
+                    'ft_blkg' => 'Foto Belakang Mobil',
+                    'ft_interior' => 'Foto Interior Mobil'
+                ] as $field => $label): ?>
+                    <div class="form-group">
+                        <label for="<?= $field ?>"><?= $label ?></label>
+
+                        <?php if (!empty($mobil_dipilih[$field])): ?>
+                            <p class="help-block">
+                                Foto saat ini:
+                                <?= htmlspecialchars(
+                                    $mobil_dipilih[$field],
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ) ?>
+                            </p>
+                        <?php endif; ?>
+
+                        <input type="file" class="form-control"
+                            id="<?= $field ?>" name="<?= $field ?>"
+                            accept="image/jpeg,image/png,image/webp">
+
+                        <p class="help-block">
+                            Kosongkan jika tidak ingin mengganti foto.
+                            JPEG, PNG, atau WEBP. Maksimal 5 MB.
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+
+                <div class="form-group">
+                    <label>Harga Sewa per Hari</label>
+                    <input type="number" name="hrg_hari"
+                        class="form-control" min="1" required
+                        value="<?= (int) ($mobil_dipilih['hrg_hari'] ?? 1) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Catatan Unit</label>
+                    <textarea name="cttn_unit"
+                        class="form-control" required><?= htmlspecialchars(
+                            (string) ($mobil_dipilih['cttn_unit'] ?? ''),
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Status Kendaraan</label>
+                    <select name="status_unit" class="form-control" required>
+                        <?php foreach ([
+                            'tersedia' => 'Tersedia',
+                            'disewa' => 'Disewa',
+                            'tidaktersedia' => 'Tidak Tersedia'
+                        ] as $value => $label): ?>
+                            <option value="<?= $value ?>"
+                                <?= ($mobil_dipilih['status_unit'] ?? '') === $value ? 'selected' : '' ?>>
+                                <?= $label ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-warning">
+                    Simpan Perubahan
+                </button>
+
+                <a href="<?= htmlspecialchars(
+                    site_url('admin/mobil'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>" class="btn btn-default">
+                    Batal
+                </a>
+            </form>
+        </div>
+    </div>
+<?php endif; ?>
+
         <?php if (!empty($flash)): ?>
             <div class="alert <?= $flashClass ?> alert-dismissible">
                 <button type="button" class="close"

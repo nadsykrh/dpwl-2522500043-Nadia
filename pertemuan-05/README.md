@@ -54,3 +54,27 @@ Konfigurasi tiga route telah ditambahkan. Pengujian fungsi route akan dilanjutka
 - Data kendaraan berhasil tersimpan ke database.
 - Unggahan foto berhasil dilakukan dan berkas tersimpan di folder `uploads/mobil/`.
 - Pesan keberhasilan tampil setelah data berhasil ditambahkan.
+
+### Bagian E — UPDATE Data Kendaraan
+
+**Perubahan:**
+- Menambahkan method `findByNoPlat()` pada `application/models/Mobil_model.php` untuk mengambil data kendaraan berdasarkan nomor plat.
+- Menambahkan method `update()` pada `application/models/Mobil_model.php` untuk memperbarui data kendaraan di database menggunakan prepared statement.
+- Menambahkan method `ubah()` pada `application/controllers/Mobil_controller.php` untuk menampilkan formulir ubah dan memproses perubahan data kendaraan.
+- Menggunakan kembali validasi input pada `application/controllers/Mobil_controller.php` sebelum perubahan disimpan.
+- Menambahkan proses penggantian foto depan, foto belakang, dan foto interior kendaraan.
+- Mempertahankan foto lama apabila pengguna tidak mengunggah foto pengganti.
+- Menambahkan penanganan kegagalan unggah foto dan pembersihan berkas foto baru apabila pembaruan data gagal.
+- Memperbarui `application/views/admin/mobil_view.php` dengan formulir ubah kendaraan yang menampilkan data sebelumnya.
+
+**Hasil pemeriksaan:**
+- Pemeriksaan sintaks `Mobil_model.php`: tidak ditemukan kesalahan sintaks.
+- Pemeriksaan sintaks `Mobil_controller.php`: tidak ditemukan kesalahan sintaks.
+- Pemeriksaan sintaks `mobil_view.php`: tidak ditemukan kesalahan sintaks.
+
+**Hasil pengujian:**
+- Formulir ubah kendaraan berhasil ditampilkan dengan data kendaraan yang dipilih.
+- Perubahan data kendaraan berhasil disimpan ke database.
+- Penggantian foto kendaraan berhasil dilakukan.
+- Foto lama tetap digunakan apabila foto tidak diganti.
+- Pengujian fitur UPDATE berhasil dilakukan sesuai skenario yang diuji.
