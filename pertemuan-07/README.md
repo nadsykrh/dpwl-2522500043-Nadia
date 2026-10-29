@@ -1,1 +1,128 @@
 # pertemuan-07
+# README.md
+
+# P7 — Implementasi Keranjang Transaksi pada Sistem Rental Kendaraan
+
+## A. Deskripsi Proyek
+
+Proyek ini merupakan pengembangan sistem informasi rental kendaraan berbasis web menggunakan PHP dan MySQL. Pengembangan dilakukan dengan melanjutkan proyek sebelumnya dan menerapkan pola arsitektur **Model-View-Controller (MVC)**.
+
+## B. Persiapan Model dan Controller Transaksi
+
+Pada bagian ini dilakukan persiapan komponen transaksi untuk menangani proses penambahan kendaraan ke keranjang.
+
+### 1. Model Transaksi
+
+File yang dibuat:
+
+`application/models/Transaksi_model.php`
+
+Model transaksi digunakan sebagai tempat pengelolaan data transaksi yang berhubungan dengan database.
+
+Fitur yang dipersiapkan meliputi:
+- Pengelolaan kunci transaksi menggunakan mekanisme MySQL `GET_LOCK`.
+- Pelepasan kunci transaksi menggunakan `RELEASE_LOCK`.
+- Pembuatan kode sewa dengan format `INV/YYYYMMDD/NN`.
+
+### 2. Controller Transaksi
+
+File yang dibuat:
+
+`application/controllers/Transaksi_controller.php`
+
+Controller transaksi disiapkan untuk menangani permintaan penambahan kendaraan ke keranjang.
+
+Proses yang dipersiapkan meliputi:
+- Memeriksa status login penyewa.
+- Memastikan permintaan menggunakan metode POST.
+- Mengambil nomor polisi kendaraan dan tujuan pengalihan halaman.
+- Menyiapkan pesan untuk memberikan informasi kepada pengguna.
+
+### 3. Routing
+
+Pada file `routes.php`, ditambahkan route berikut:
+
+```php
+$route['transaksi/tambah'] = 'Transaksi_controller/tambah';
+```
+
+Route ini digunakan untuk mengarahkan permintaan penambahan kendaraan ke controller transaksi.
+
+## C. Integrasi Tombol Tambah ke Keranjang
+
+Pada bagian ini dilakukan penyesuaian tampilan katalog dan detail kendaraan agar pengguna dapat menambahkan kendaraan ke keranjang melalui form.
+
+### 1. Halaman Detail Kendaraan
+
+File:
+
+`application/views/katalog/detail.php`
+
+Perubahan yang dilakukan:
+- Menyesuaikan tombol tambah ke keranjang berdasarkan status ketersediaan kendaraan.
+- Menampilkan form penambahan kendaraan jika kendaraan tersedia.
+- Menyesuaikan tampilan tombol berdasarkan status login penyewa.
+- Mengirimkan nomor polisi kendaraan melalui input tersembunyi (`hidden input`).
+- Menambahkan parameter `return_to` dengan nilai `detail`.
+
+### 2. Halaman Katalog Kendaraan
+
+File:
+
+`application/views/katalog/index.php`
+
+Perubahan yang dilakukan:
+- Menyesuaikan tombol tambah ke keranjang pada setiap kartu kendaraan.
+- Menampilkan tombol aktif jika kendaraan tersedia dan tombol nonaktif jika tidak tersedia.
+- Mengirimkan nomor polisi kendaraan melalui input tersembunyi.
+- Menambahkan parameter `return_to` dengan nilai `katalog`.
+- Mengarahkan form ke route `transaksi/tambah` menggunakan metode POST.
+
+## D. Integrasi Navigasi dan Jumlah Keranjang
+
+### D.1. Penyesuaian Navbar
+
+File:
+
+`application/views/katalog/navbar.php`
+
+Penyesuaian dilakukan untuk menampilkan informasi keranjang pada bagian navigasi.
+
+Perubahan yang dilakukan:
+- Menambahkan variabel untuk jumlah kendaraan dalam keranjang.
+- Menambahkan penanganan flash message transaksi.
+- Menampilkan pesan sukses atau gagal kepada pengguna.
+- Mengarahkan ikon keranjang ke halaman `transaksi/keranjang`.
+- Mengganti angka jumlah keranjang yang sebelumnya statis dengan nilai dinamis dari variabel `$jumlahKeranjang`.
+
+### D.2. Integrasi Model dan Controller
+
+#### D.2.1. Menambahkan Fungsi Penghitungan Keranjang
+
+File:
+
+`application/models/Transaksi_model.php`
+
+Ditambahkan method:
+
+`getJumlahMobilKeranjang(string $userPlg): int`
+
+Method ini digunakan untuk menghitung jumlah kendaraan dalam keranjang berdasarkan pengguna yang sedang login.
+
+Penghitungan dilakukan dengan mengambil data dari tabel `t_pilih` dan menghubungkannya dengan tabel `t_sewa`. Data yang dihitung dibatasi pada transaksi milik penyewa terkait dengan status sewa `keranjang`.
+
+#### D.2.2. Integrasi pada Katalog Controller
+
+File:
+
+`application/controllers/Katalog_controller.php`
+
+Penyesuaian yang dilakukan:
+- Menambahkan pemanggilan file `Transaksi_model.php`.
+- Menambahkan properti untuk objek model transaksi pada controller katalog.
+- Menginisialisasi objek `Transaksi_model` pada constructor.
+- Mengirimkan variabel `jumlahKeranjang` ke halaman katalog.
+- Menyiapkan pengiriman jumlah keranjang pada halaman detail kendaraan.
+
+Jumlah keranjang dihitung berdasarkan pengguna yang sedang login. Jika pengguna belum login, jumlah keranjang ditetapkan menjadi `0`.
+
