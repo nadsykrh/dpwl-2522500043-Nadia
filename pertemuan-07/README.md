@@ -184,3 +184,34 @@ Pada tahap ini, Model transaksi dikembangkan untuk mengintegrasikan proses penam
 3. Mencoba menambahkan kendaraan yang sama untuk kedua kalinya. Hasil: sistem menampilkan pesan bahwa kendaraan sudah ada di keranjang ini dan mencegah penambahan duplikat.
 
 **Status:** Implementasi dan pengujian fungsional bagian E.1 berhasil. Fitur penambahan kendaraan ke keranjang berjalan sesuai hasil pengujian.
+
+## F.1. Membuat Halaman Isi Keranjang
+
+**File yang dibuat:**
+- `application/views/transaksi/keranjang.php`
+
+### Deskripsi
+
+Pada tahap ini, dibuat halaman isi keranjang penyewaan kendaraan untuk menampilkan informasi transaksi dan kendaraan yang dipilih oleh penyewa.
+
+### Implementasi
+
+- Memanggil header dan navbar aplikasi.
+- Menampilkan kode transaksi dan status penyewaan.
+- Menampilkan formulir tanggal mulai, tanggal selesai, dan waktu pengambilan kendaraan.
+- Menampilkan pesan notifikasi berdasarkan hasil proses.
+- Menampilkan daftar kendaraan dalam keranjang, meliputi foto, nama kendaraan, nomor polisi, harga sewa per hari, durasi sewa, dan subtotal.
+- Menampilkan total biaya sewa.
+- Menyediakan formulir untuk menghapus kendaraan dari keranjang.
+- Menyediakan tombol untuk melanjutkan ke halaman checkout atau konfirmasi transaksi.
+- Menggunakan fungsi `htmlspecialchars()` untuk mengamankan data sebelum ditampilkan pada HTML.
+- Menambahkan JavaScript untuk membantu membatasi waktu pengambilan minimal dua jam dari waktu sekarang serta memvalidasi periode sewa.
+
+### Pengujian
+
+- Melakukan pemeriksaan sintaks PHP pada `application/views/transaksi/keranjang.php` menggunakan PHP Laragon.
+- Hasil pemeriksaan: `No syntax errors detected in application/views/transaksi/keranjang.php`.
+
+### Status
+
+Pembuatan halaman keranjang selesai dan pemeriksaan sintaks berhasil. Pengujian tampilan serta fungsi formulir pada browser dicatat setelah halaman diintegrasikan dengan Controller dan route transaksi.
