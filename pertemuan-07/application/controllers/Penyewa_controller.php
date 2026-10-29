@@ -1,16 +1,18 @@
 
 <?php
 require_once APPPATH . 'models/Penyewa_model.php';
+require_once APPPATH . 'models/Transaksi_model.php';
 
 class Penyewa_controller extends Controller
 {
-  private Penyewa_model $model;
+    private Penyewa_model $model;
+    private Transaksi_model $transaksiModel;
 
   public function __construct()
-  {
+{
     $this->model = new Penyewa_model();
-  }
-
+    $this->transaksiModel = new Transaksi_model();
+}
   public function profil(): void
   {
     if (empty($_SESSION['penyewa_user_plg'])) {
@@ -132,17 +134,19 @@ class Penyewa_controller extends Controller
           }
         }
       }
+      $jumlahKeranjang = $this->transaksiModel->getJumlahMobilKeranjang($userPlg);
 
-      if ($error !== null) {
-        $this->view('penyewa/profil', [
-          'profil' => $profil,
-          'flash' => null,
-          'error' => $error,
-          'old' => $old
-        ]);
+if ($error !== null) {
+    $this->view('penyewa/profil', [
+        'profil' => $profil,
+        'flash' => null,
+        'error' => $error,
+        'old' => $old,
+        'jumlahKeranjang' => $jumlahKeranjang
+    ]);
 
-        return;
-      }
+    return;
+}
 
       $uploadedFiles = [];
 
@@ -299,7 +303,12 @@ class Penyewa_controller extends Controller
     array $old,
     string $error
   ): void {
-    $this->view('penyewa/profil', [
+    $userPlg = trim((string) ($_SESSION['penyewa_user_plg'] ?? ''));
+    $jumlahKeranjang = $userPlg === ''
+    ? 0
+    : $this->transaksiModel->getJumlahMobilKeranjang($userPlg);
+  
+  $this->view('penyewa/profil', [
       'profil' => $profil,
       'flash' => null,
       'error' => $error,

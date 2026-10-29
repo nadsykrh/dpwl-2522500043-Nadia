@@ -126,3 +126,35 @@ Penyesuaian yang dilakukan:
 
 Jumlah keranjang dihitung berdasarkan pengguna yang sedang login. Jika pengguna belum login, jumlah keranjang ditetapkan menjadi `0`.
 
+### D.2.3. Memperbarui Penyewa Controller
+
+File:
+
+`application/controllers/Penyewa_controller.php`
+
+Pada tahap ini, dilakukan penyesuaian pada controller penyewa agar jumlah kendaraan dalam keranjang tetap dikirim ke halaman profil penyewa. Dengan demikian, navbar dapat menampilkan jumlah keranjang ketika pengguna membuka halaman katalog, detail kendaraan, maupun profil penyewa.
+
+**Perubahan yang dilakukan:**
+
+1. Menambahkan pemanggilan `Transaksi_model.php` menggunakan `require_once`.
+2. Menambahkan properti `$transaksiModel` di dalam class `Penyewa_controller`.
+3. Menginisialisasi objek `Transaksi_model` pada method `__construct()`.
+4. Menambahkan perhitungan jumlah kendaraan dalam keranjang menggunakan method `getJumlahMobilKeranjang($userPlg)` pada method `profil()`.
+5. Mengirimkan variabel `jumlahKeranjang` ke view `penyewa/profil`.
+6. Menambahkan data jumlah keranjang pada tampilan profil ketika validasi formulir gagal.
+7. Memperbarui method `renderProfilError()` agar tetap mengirimkan jumlah keranjang ketika terjadi kesalahan pada proses pembaruan profil.
+
+**Tujuan:**
+
+Memastikan jumlah kendaraan dalam keranjang tetap ditampilkan pada navbar halaman profil penyewa, termasuk ketika formulir profil menampilkan pesan kesalahan validasi atau proses pembaruan profil mengalami kegagalan.
+
+**Pengujian:**
+
+- Membuka halaman profil penyewa dan memeriksa jumlah pada ikon keranjang.
+- Mengubah data profil dengan data valid dan memastikan jumlah keranjang tetap ditampilkan.
+- Menguji formulir dengan data yang tidak valid dan memastikan pesan kesalahan serta jumlah keranjang tetap ditampilkan.
+- Memeriksa kembali halaman katalog dan detail kendaraan untuk memastikan perubahan tidak mengganggu halaman lainnya.
+
+Hasil pengujian aktual dicatat setelah seluruh skenario pengujian dijalankan.
+
+
