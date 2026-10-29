@@ -215,3 +215,30 @@ Pada tahap ini, dibuat halaman isi keranjang penyewaan kendaraan untuk menampilk
 ### Status
 
 Pembuatan halaman keranjang selesai dan pemeriksaan sintaks berhasil. Pengujian tampilan serta fungsi formulir pada browser dicatat setelah halaman diintegrasikan dengan Controller dan route transaksi.
+
+## F.2. Menambahkan Method Keranjang dan Lainnya pada Controller Transaksi
+
+### Perubahan yang Dilakukan
+- Menambahkan method `keranjang()` pada `Transaksi_controller` untuk menampilkan keranjang milik penyewa yang sedang login.
+- Menambahkan method `perbaruiPeriode()` untuk memperbarui tanggal mulai, tanggal selesai, dan waktu pengambilan kendaraan.
+- Menambahkan method `hapus()` untuk menghapus kendaraan dari keranjang.
+- Menambahkan method `checkout()` untuk menampilkan konfirmasi dan memproses pengajuan transaksi.
+- Menambahkan method `redirectDenganPesan()` untuk mengatur pengalihan halaman beserta notifikasi.
+- Menambahkan method pada `Transaksi_model`, yaitu `validasiWaktuMulai()`, `perbaruiPeriodeKeranjang()`, `getKeranjang()`, `hapusDariKeranjang()`, `checkout()`, dan `getKodeKeranjangAktif()`.
+- Mendaftarkan route transaksi, keranjang, pembaruan periode, penghapusan kendaraan, dan checkout pada `application/config/routes.php`.
+
+### Pengujian
+| No. | Skenario Pengujian | Hasil Aktual |
+|---|---|---|
+| 1 | Menampilkan keranjang milik penyewa yang memiliki keranjang aktif | Berhasil |
+| 2 | Mengarahkan penyewa yang belum memiliki keranjang aktif kembali ke katalog dengan pesan keranjang kosong | Berhasil |
+| 3 | Menampilkan jumlah kendaraan pada navbar sesuai keranjang penyewa yang login | Berhasil |
+| 4 | Memperbarui periode dan waktu pengambilan kendaraan | Berhasil |
+| 5 | Menghapus kendaraan dari keranjang | Berhasil |
+| 6 | Menampilkan halaman konfirmasi checkout | Berhasil |
+| 7 | Memproses checkout dan mengajukan transaksi | Berhasil |
+| 8 | Memeriksa sintaks PHP pada `Transaksi_model.php` | Berhasil, tidak ditemukan kesalahan sintaks |
+
+### Kesimpulan
+Implementasi F.2 telah selesai dan seluruh skenario pengujian yang dilakukan berhasil. Fitur keranjang, pembaruan periode sewa, penghapusan kendaraan, serta alur checkout telah diuji dan berjalan sesuai harapan.
+
