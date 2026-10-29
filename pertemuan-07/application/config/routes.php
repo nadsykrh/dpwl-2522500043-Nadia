@@ -43,4 +43,3 @@ $route['transaksi/perbarui-periode'] = 'Transaksi_controller/perbaruiPeriode';
 $route['transaksi/hapus'] = 'Transaksi_controller/hapus';
 $route['transaksi/hapus/(:any)'] = 'Transaksi_controller/hapus/$1';
 $route['transaksi/checkout'] = 'Transaksi_controller/checkout';
-

@@ -242,3 +242,37 @@ Pembuatan halaman keranjang selesai dan pemeriksaan sintaks berhasil. Pengujian 
 ### Kesimpulan
 Implementasi F.2 telah selesai dan seluruh skenario pengujian yang dilakukan berhasil. Fitur keranjang, pembaruan periode sewa, penghapusan kendaraan, serta alur checkout telah diuji dan berjalan sesuai harapan.
 
+# F.3 Implementasi Halaman Konfirmasi Transaksi
+
+## F.3.1 Implementasi View Konfirmasi
+
+Pada tahap ini dibuat file `application/views/transaksi/konfirmasi.php` untuk menampilkan halaman konfirmasi transaksi sebelum transaksi diajukan kepada admin.
+
+Fitur yang diimplementasikan:
+- Menampilkan kode transaksi.
+- Menampilkan periode penyewaan dan waktu pengambilan.
+- Menampilkan daftar kendaraan yang disewa.
+- Menampilkan harga sewa, durasi, subtotal, dan total biaya.
+- Menghitung uang muka (DP) sebesar 30% dari total biaya.
+- Menampilkan sisa pembayaran.
+- Menyediakan tombol **Kembali ke Keranjang** dan **Konfirmasi dan Ajukan Transaksi**.
+
+**Hasil pengujian: Berhasil.** Halaman konfirmasi transaksi dapat ditampilkan dengan baik melalui URL checkout.
+
+## F.3.2 Pengujian Halaman Konfirmasi Transaksi
+
+Pengujian dilakukan untuk memastikan halaman konfirmasi menampilkan informasi transaksi dengan benar dan menyediakan navigasi yang sesuai.
+
+| No. | Skenario Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman konfirmasi melalui menu checkout. | Berhasil |
+| 2 | Menampilkan kode transaksi dan periode penyewaan. | Berhasil |
+| 3 | Menampilkan waktu pengambilan kendaraan. | Berhasil |
+| 4 | Menampilkan daftar kendaraan beserta harga dan durasi sewa. | Berhasil |
+| 5 | Menampilkan total biaya penyewaan. | Berhasil |
+| 6 | Menampilkan perhitungan DP sebesar 30% dan sisa pembayaran. | Berhasil |
+| 7 | Menggunakan tombol Kembali ke Keranjang. | Berhasil |
+| 8 | Memastikan halaman konfirmasi hanya dapat diakses untuk transaksi milik penyewa yang sesuai dan berstatus keranjang. | Berhasil |
+
+**Kesimpulan:** Implementasi dan pengujian halaman konfirmasi transaksi pada tahap F.3 hingga F.3.2 berhasil dilakukan. Halaman dapat menampilkan informasi transaksi, rincian biaya, DP, dan sisa pembayaran serta menyediakan navigasi untuk kembali ke keranjang.
+
