@@ -276,3 +276,20 @@ Pengujian dilakukan untuk memastikan halaman konfirmasi menampilkan informasi tr
 
 **Kesimpulan:** Implementasi dan pengujian halaman konfirmasi transaksi pada tahap F.3 hingga F.3.2 berhasil dilakukan. Halaman dapat menampilkan informasi transaksi, rincian biaya, DP, dan sisa pembayaran serta menyediakan navigasi untuk kembali ke keranjang.
 
+## F.3.3 Pengujian Proses Checkout
+
+Pengujian ini dilakukan untuk memastikan proses pengajuan transaksi berjalan dengan baik dan data transaksi tersimpan sesuai ketentuan.
+
+| No. | Skenario Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman konfirmasi transaksi. | Berhasil |
+| 2 | Menekan tombol Konfirmasi dan Ajukan Transaksi. | Berhasil |
+| 3 | Menampilkan pesan bahwa transaksi berhasil diajukan dan menunggu persetujuan admin. | Berhasil |
+| 4 | Memastikan status transaksi pada tabel `t_sewa` berubah dari `keranjang` menjadi `diajukan`. | Berhasil |
+| 5 | Memastikan data pembayaran DP tersimpan pada tabel `t_bayar`. | Berhasil |
+| 6 | Memastikan jenis pembayaran tercatat sebagai `dp` dengan metode `transfer`. | Berhasil |
+| 7 | Memastikan nominal DP sebesar 30% dari total biaya penyewaan. | Berhasil |
+| 8 | Memastikan status pembayaran tercatat sebagai `pending`. | Berhasil |
+| 9 | Memastikan transaksi yang sudah diajukan tidak dapat diajukan kembali melalui keranjang aktif. | Berhasil |
+
+**Kesimpulan:** Proses checkout berhasil dijalankan. Transaksi diajukan kepada admin, status penyewaan diperbarui menjadi `diajukan`, dan data pembayaran DP dicatat dengan status `pending`. Pembayaran belum dianggap lunas karena masih menunggu proses verifikasi lebih lanjut.
