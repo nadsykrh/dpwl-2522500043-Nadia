@@ -157,4 +157,30 @@ Memastikan jumlah kendaraan dalam keranjang tetap ditampilkan pada navbar halama
 
 Hasil pengujian aktual dicatat setelah seluruh skenario pengujian dijalankan.
 
+## E. Mengintegrasikan Proses Penambahan Kendaraan ke Keranjang
 
+### E.1. Menambahkan Method `tambahKeKeranjang()`
+
+**File yang diperbarui:**
+- `application/models/Transaksi_model.php`
+
+**Deskripsi:**
+
+Pada tahap ini, Model transaksi dikembangkan untuk mengintegrasikan proses penambahan kendaraan ke dalam keranjang penyewaan. Sistem menggunakan tabel `t_sewa` sebagai penyimpan informasi utama transaksi dan tabel `t_pilih` untuk menyimpan kendaraan yang dipilih.
+
+**Implementasi:**
+- Menambahkan helper `namaKunciKeranjang()` untuk mengidentifikasi kunci keranjang berdasarkan penyewa.
+- Menambahkan helper `kunciKendaraan()` untuk mengambil dan mengunci data kendaraan dari basis data.
+- Menambahkan helper `hitungHariSewa()` untuk memvalidasi tanggal dan menghitung durasi penyewaan.
+- Menambahkan helper `normalisasiWaktu()` untuk memvalidasi serta menormalisasi waktu pengambilan kendaraan.
+- Menambahkan method `tambahKeKeranjang()` untuk memeriksa ketersediaan kendaraan, mencari keranjang aktif, membuat transaksi baru jika belum tersedia, dan menyimpan kendaraan yang dipilih.
+- Menggunakan prepared statement MySQLi untuk menjalankan query basis data.
+- Menggunakan transaksi basis data, mekanisme penguncian, serta penanganan error untuk menjaga konsistensi data dan mencegah penambahan kendaraan yang sama ke keranjang yang sama.
+
+**Pengujian:**
+
+1. Memeriksa sintaks PHP pada `application/models/Transaksi_model.php` menggunakan perintah `php -l`. Hasil: tidak ditemukan kesalahan sintaks.
+2. Menguji penambahan kendaraan ke keranjang melalui aplikasi. Hasil: kendaraan berhasil ditambahkan ke keranjang.
+3. Mencoba menambahkan kendaraan yang sama untuk kedua kalinya. Hasil: sistem menampilkan pesan bahwa kendaraan sudah ada di keranjang ini dan mencegah penambahan duplikat.
+
+**Status:** Implementasi dan pengujian fungsional bagian E.1 berhasil. Fitur penambahan kendaraan ke keranjang berjalan sesuai hasil pengujian.
